@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row">
+    <% @tasks.each_slice(3) do |row| %>
+      <% row.each do |task| %>
+        <div class="col-md-3 my-3">
+          <div class="card">
+            <a href="<%= task_path(task) %>" ><%= image_tag task.photo, class:'card-img-top img-fluid' %></a>
+            <div class="card-body">
+              <h5 class="card-title"><%= task.name %></h5>
+            </div>
+            <div class="card-footer">
+
+                <% if user_signed_in? %>
+                  <% if existe_tarea_usuario?(task) %>
+                    <%= link_to "No Listo", task_usertask_path(task, current_user), class: 'btn btn-danger btn-block', method: :delete%>
+                  <% else %>
+                    <%= link_to "Listo", task_usertasks_path(task), class: 'btn btn-primary btn-block', method: :post %>
+                  <% end %>
+                <% else %>
+                  <a class="btn btn-secondary btn-block" href="<%= new_user_session_path %>"> Ingresar <span class="sr-only">(current)</span></a>
+                <% end %>
+
+            </div>
+          </div>
+        </div>
+       <% end %>
+     <% end %>
+  </div>
+</div>
